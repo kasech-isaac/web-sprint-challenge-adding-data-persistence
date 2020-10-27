@@ -8,13 +8,26 @@ function findById(id) {
 		.where("id", id)
 		.first()
 }
-function add(projectData){
-    return db("resource")
-    .insert(projectData)
+function add(data) {
+    return db("project")
+    .insert(data)
+}
+
+function update(changes, id){
+    return db("project")
+    .where({id})
+    .update(changes)
+}
+function remove(id){
+    return db("project")
+    .where({id})
+    .del()
 }
 
 module.exports = {
     find,
     findById,
     add,
+    update,
+    remove
   };

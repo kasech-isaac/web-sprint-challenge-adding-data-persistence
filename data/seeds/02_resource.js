@@ -16,18 +16,10 @@ exports.seed = async function(knex) {
     {
       id:3, 
       resource_name: "metting", 
-      description: "dont forget the js", 
+      description: "updateing", 
       
     },
-    {
-      id:4, 
-      resource_name: "sister", 
-      description: "help sister with node.js", 
-      
-    },
-    
-  
-
+ 
 	])
 }
 

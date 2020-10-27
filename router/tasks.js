@@ -12,31 +12,27 @@ router.get("/task", async (req, res, next) => {
 	}
 })
 
-router.get("/task/:id", async (req, res, next) => {
-	try {
-		const task = await db.findById(req.params.id)
-		if (!task) {
-			return res.status(404).json({
-				message: "resources not found",
-			})
-		}
-
-		res.json(task)
-	} catch(err) {
-		next(err)
-	}
-})
-
-router.post('/', async (req, res, next) => {
+router.post('/task', async (req, res, next) => {
     try {
-      const task = await db.add(req.body)
-      if (task) {
-        res.status(201).json(task)
+      const create = await db.add(req.body)
+      if (create) {
+        res.status(200).json({message:"task created"})
       } else {
-        res.status(400).json({message: `try task again`});
+        res.status(404).json({message: " add task "});
       }
     } catch (err) {
       next(err);
     }
   });
+
+  router.post('task/:id/ProjectId', async (req, res, next) => {
+	try {
+		const proId = await db.findByProjectId(req.params.id)
+		res.json(proId)
+	} catch (err) {
+		next(err);
+	  }
+  });
+
+  
 module.exports = router

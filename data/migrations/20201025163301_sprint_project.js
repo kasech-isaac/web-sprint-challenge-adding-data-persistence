@@ -2,14 +2,14 @@
 exports.up = async function(knex) {
     await knex.schema.createTable("project", (table)=>{
         table.increments("id")
-        table.text("project_name").notNull()  
+        table.text("project_name").unique().notNull()  
         table.text("description").notNull() 
         table.boolean("completed").notNull() .defaultTo(false)
       })
 
       await knex.schema.createTable("resource", (table)=>{
         table.increments("id")
-        table.text("resource_name").notNull()  
+        table.text("resource_name").unique().notNull()  
         table.text("description").notNull() 
       })
 
@@ -18,35 +18,31 @@ exports.up = async function(knex) {
         table.text("description").notNull()  
         table.text("notes").notNull() 
         table.boolean("completed").notNull().defaultTo(false)
-        table.integer("project_id").notNull() 
-            .references("id")
-			.inTable("project")
-			// .onUpdate("CASCADE")
-			// .onDelete("CASCADE") 
-        table.integer("resource_id")
-            .references("id")
-			.inTable("project")
-			// .onUpdate("CASCADE")
-			// .onDelete("CASCADE") 
-
+        table.integer("project_id")
+             .references("id")
+			 .inTable("project")
+			.onUpdate("CASCADE")
+            .onDelete("CASCADE") 
+            .notNull() 
+  
       })
 
       await knex.schema.createTable("project_resource", (table)=>{
 
         table
-        .integer("project_id")
-        .references("id")
-        .inTable("project") 
-        // .onDelete("SET NULL")
-        // .onUpdate("CASCADE")
-        .notNull()
+            .integer("project_id")
+            .references("id")
+            .inTable("project") 
+            .onDelete("SET NULL")
+            .onUpdate("CASCADE")
+            .notNull()
         table
-        .integer("resource_id")
-        .references("id")
-        .inTable("resource") 
-        // .onDelete("SET NULL")
-        // .onUpdate("CASCADE")
-        .notNull()
+            .integer("resource_id")
+            .references("id")
+            .inTable("resource") 
+            .onDelete("SET NULL")
+            .onUpdate("CASCADE")
+            .notNull()
         table.primary(["project_id", "resource_id"])
       })
 };

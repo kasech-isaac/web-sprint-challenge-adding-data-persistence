@@ -1,11 +1,15 @@
 const express = require("express")
 const resources = require("./router/resources")
+const project = require("./router/project")
+const tasks = require("./router/tasks")
 
 const server = express()
 const port = 4000
 server.use(express.json())
 
 server.use(resources)
+server.use(project)
+server.use(tasks)
 
 server.use((err, req, res, next) => {
 	console.log(err)
